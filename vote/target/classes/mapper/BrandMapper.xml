@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.BrandMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Brand" >
+    <constructor >
+      <idArg column="brand_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="brand_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="brand_info" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="brand_photo_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="brand_vote_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="brand_rank" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="brand_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    brand_id, brand_name, brand_info, brand_photo_id, brand_vote_count, brand_rank, brand_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.Brand" >
+    insert into brand (brand_id, brand_name, brand_info, 
+      brand_photo_id, brand_vote_count, brand_rank, 
+      brand_type)
+    values (#{brandId,jdbcType=INTEGER}, #{brandName,jdbcType=VARCHAR}, #{brandInfo,jdbcType=VARCHAR}, 
+      #{brandPhotoId,jdbcType=INTEGER}, #{brandVoteCount,jdbcType=INTEGER}, #{brandRank,jdbcType=INTEGER}, 
+      #{brandType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.Brand" >
+    insert into brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandInfo != null" >
+        brand_info,
+      </if>
+      <if test="brandPhotoId != null" >
+        brand_photo_id,
+      </if>
+      <if test="brandVoteCount != null" >
+        brand_vote_count,
+      </if>
+      <if test="brandRank != null" >
+        brand_rank,
+      </if>
+      <if test="brandType != null" >
+        brand_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandInfo != null" >
+        #{brandInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandPhotoId != null" >
+        #{brandPhotoId,jdbcType=INTEGER},
+      </if>
+      <if test="brandVoteCount != null" >
+        #{brandVoteCount,jdbcType=INTEGER},
+      </if>
+      <if test="brandRank != null" >
+        #{brandRank,jdbcType=INTEGER},
+      </if>
+      <if test="brandType != null" >
+        #{brandType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.Brand" >
+    update brand
+    <set >
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandInfo != null" >
+        brand_info = #{brandInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandPhotoId != null" >
+        brand_photo_id = #{brandPhotoId,jdbcType=INTEGER},
+      </if>
+      <if test="brandVoteCount != null" >
+        brand_vote_count = #{brandVoteCount,jdbcType=INTEGER},
+      </if>
+      <if test="brandRank != null" >
+        brand_rank = #{brandRank,jdbcType=INTEGER},
+      </if>
+      <if test="brandType != null" >
+        brand_type = #{brandType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Brand" >
+    update brand
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_info = #{brandInfo,jdbcType=VARCHAR},
+      brand_photo_id = #{brandPhotoId,jdbcType=INTEGER},
+      brand_vote_count = #{brandVoteCount,jdbcType=INTEGER},
+      brand_rank = #{brandRank,jdbcType=INTEGER},
+      brand_type = #{brandType,jdbcType=VARCHAR}
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+</mapper>

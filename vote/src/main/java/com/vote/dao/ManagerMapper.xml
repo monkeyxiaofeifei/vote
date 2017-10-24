@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.ManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Manager" >
+    <id column="manager_id" property="managerId" jdbcType="INTEGER" />
+    <result column="manager_name" property="managerName" jdbcType="VARCHAR" />
+    <result column="manager_pwd" property="managerPwd" jdbcType="VARCHAR" />
+    <result column="manager_phone" property="managerPhone" jdbcType="CHAR" />
+    <result column="manager_card" property="managerCard" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.vote.pojo.Manager" extends="BaseResultMap" >
+    <result column="manager_info" property="managerInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    manager_id, manager_name, manager_pwd, manager_phone, manager_card
+  </sql>
+  <sql id="Blob_Column_List" >
+    manager_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.vote.pojo.ManagerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vote.pojo.ManagerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from manager
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manager
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vote.pojo.ManagerExample" >
+    delete from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.Manager" >
+    insert into manager (manager_id, manager_name, manager_pwd, 
+      manager_phone, manager_card, manager_info
+      )
+    values (#{managerId,jdbcType=INTEGER}, #{managerName,jdbcType=VARCHAR}, #{managerPwd,jdbcType=VARCHAR}, 
+      #{managerPhone,jdbcType=CHAR}, #{managerCard,jdbcType=CHAR}, #{managerInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.Manager" >
+    insert into manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="managerName != null" >
+        manager_name,
+      </if>
+      <if test="managerPwd != null" >
+        manager_pwd,
+      </if>
+      <if test="managerPhone != null" >
+        manager_phone,
+      </if>
+      <if test="managerCard != null" >
+        manager_card,
+      </if>
+      <if test="managerInfo != null" >
+        manager_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="managerName != null" >
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPwd != null" >
+        #{managerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null" >
+        #{managerPhone,jdbcType=CHAR},
+      </if>
+      <if test="managerCard != null" >
+        #{managerCard,jdbcType=CHAR},
+      </if>
+      <if test="managerInfo != null" >
+        #{managerInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vote.pojo.ManagerExample" resultType="java.lang.Integer" >
+    select count(*) from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update manager
+    <set >
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerName != null" >
+        manager_name = #{record.managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerPwd != null" >
+        manager_pwd = #{record.managerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerPhone != null" >
+        manager_phone = #{record.managerPhone,jdbcType=CHAR},
+      </if>
+      <if test="record.managerCard != null" >
+        manager_card = #{record.managerCard,jdbcType=CHAR},
+      </if>
+      <if test="record.managerInfo != null" >
+        manager_info = #{record.managerInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update manager
+    set manager_id = #{record.managerId,jdbcType=INTEGER},
+      manager_name = #{record.managerName,jdbcType=VARCHAR},
+      manager_pwd = #{record.managerPwd,jdbcType=VARCHAR},
+      manager_phone = #{record.managerPhone,jdbcType=CHAR},
+      manager_card = #{record.managerCard,jdbcType=CHAR},
+      manager_info = #{record.managerInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update manager
+    set manager_id = #{record.managerId,jdbcType=INTEGER},
+      manager_name = #{record.managerName,jdbcType=VARCHAR},
+      manager_pwd = #{record.managerPwd,jdbcType=VARCHAR},
+      manager_phone = #{record.managerPhone,jdbcType=CHAR},
+      manager_card = #{record.managerCard,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.Manager" >
+    update manager
+    <set >
+      <if test="managerName != null" >
+        manager_name = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPwd != null" >
+        manager_pwd = #{managerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null" >
+        manager_phone = #{managerPhone,jdbcType=CHAR},
+      </if>
+      <if test="managerCard != null" >
+        manager_card = #{managerCard,jdbcType=CHAR},
+      </if>
+      <if test="managerInfo != null" >
+        manager_info = #{managerInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vote.pojo.Manager" >
+    update manager
+    set manager_name = #{managerName,jdbcType=VARCHAR},
+      manager_pwd = #{managerPwd,jdbcType=VARCHAR},
+      manager_phone = #{managerPhone,jdbcType=CHAR},
+      manager_card = #{managerCard,jdbcType=CHAR},
+      manager_info = #{managerInfo,jdbcType=LONGVARCHAR}
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Manager" >
+    update manager
+    set manager_name = #{managerName,jdbcType=VARCHAR},
+      manager_pwd = #{managerPwd,jdbcType=VARCHAR},
+      manager_phone = #{managerPhone,jdbcType=CHAR},
+      manager_card = #{managerCard,jdbcType=CHAR}
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+</mapper>

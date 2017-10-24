@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.TodayVoteMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.TodayVote" >
+    <constructor >
+      <idArg column="today_vote_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="brand_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    today_vote_id, user_id, brand_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from today_vote
+    where today_vote_id = #{todayVoteId,jdbcType=INTEGER}
+  </select>
+  <select id="getMaxTodayVoteId" resultType="java.lang.Integer">
+    select max(today_vote_id) from today_vote
+  </select>
+  <select id="getIsTodayVote" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    SELECT COUNT(today_vote_id) FROM today_vote WHERE brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  <select id="getTodayVoteCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    SELECT COUNT(user_id) FROM today_vote WHERE user_id=#{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from today_vote
+    where today_vote_id = #{todayVoteId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteAll" >
+    delete from today_vote WHERE 1=1
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.TodayVote" >
+    insert into today_vote (today_vote_id, user_id, brand_id
+      )
+    values (#{todayVoteId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.TodayVote" >
+    insert into today_vote
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="todayVoteId != null" >
+        today_vote_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="todayVoteId != null" >
+        #{todayVoteId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.TodayVote" >
+    update today_vote
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where today_vote_id = #{todayVoteId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.TodayVote" >
+    update today_vote
+    set user_id = #{userId,jdbcType=INTEGER},
+      brand_id = #{brandId,jdbcType=INTEGER}
+    where today_vote_id = #{todayVoteId,jdbcType=INTEGER}
+  </update>
+</mapper>

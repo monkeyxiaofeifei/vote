@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.AwardMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Award" >
+    <id column="award_id" property="awardId" jdbcType="INTEGER" />
+    <result column="award_name" property="awardName" jdbcType="VARCHAR" />
+    <result column="award_image" property="awardImage" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    award_id, award_name, award_image
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vote.pojo.AwardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from award
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from award
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from award
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vote.pojo.AwardExample" >
+    delete from award
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.Award" >
+    insert into award (award_id, award_name, award_image
+      )
+    values (#{awardId,jdbcType=INTEGER}, #{awardName,jdbcType=VARCHAR}, #{awardImage,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.Award" >
+    insert into award
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="awardId != null" >
+        award_id,
+      </if>
+      <if test="awardName != null" >
+        award_name,
+      </if>
+      <if test="awardImage != null" >
+        award_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="awardId != null" >
+        #{awardId,jdbcType=INTEGER},
+      </if>
+      <if test="awardName != null" >
+        #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="awardImage != null" >
+        #{awardImage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vote.pojo.AwardExample" resultType="java.lang.Integer" >
+    select count(*) from award
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update award
+    <set >
+      <if test="record.awardId != null" >
+        award_id = #{record.awardId,jdbcType=INTEGER},
+      </if>
+      <if test="record.awardName != null" >
+        award_name = #{record.awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.awardImage != null" >
+        award_image = #{record.awardImage,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update award
+    set award_id = #{record.awardId,jdbcType=INTEGER},
+      award_name = #{record.awardName,jdbcType=VARCHAR},
+      award_image = #{record.awardImage,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.Award" >
+    update award
+    <set >
+      <if test="awardName != null" >
+        award_name = #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="awardImage != null" >
+        award_image = #{awardImage,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Award" >
+    update award
+    set award_name = #{awardName,jdbcType=VARCHAR},
+      award_image = #{awardImage,jdbcType=VARCHAR}
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </update>
+</mapper>

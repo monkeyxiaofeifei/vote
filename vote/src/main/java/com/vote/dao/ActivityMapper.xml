@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.ActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Activity" >
+    <id column="activity_id" property="activityId" jdbcType="INTEGER" />
+    <result column="activity_start" property="activityStart" jdbcType="DATE" />
+    <result column="activity_end" property="activityEnd" jdbcType="DATE" />
+    <result column="activity_name" property="activityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.vote.pojo.ActivityWithBLOBs" extends="BaseResultMap" >
+    <result column="activity_dev_info" property="activityDevInfo" jdbcType="LONGVARCHAR" />
+    <result column="activity_info" property="activityInfo" jdbcType="LONGVARCHAR" />
+    <result column="vote_info" property="voteInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    activity_id, activity_start, activity_end, activity_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    activity_dev_info, activity_info, vote_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.vote.pojo.ActivityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vote.pojo.ActivityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from activity
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from activity
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vote.pojo.ActivityExample" >
+    delete from activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.ActivityWithBLOBs" >
+    insert into activity (activity_id, activity_start, activity_end, 
+      activity_name, activity_dev_info, activity_info, 
+      vote_info)
+    values (#{activityId,jdbcType=INTEGER}, #{activityStart,jdbcType=DATE}, #{activityEnd,jdbcType=DATE}, 
+      #{activityName,jdbcType=VARCHAR}, #{activityDevInfo,jdbcType=LONGVARCHAR}, #{activityInfo,jdbcType=LONGVARCHAR}, 
+      #{voteInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.ActivityWithBLOBs" >
+    insert into activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="activityStart != null" >
+        activity_start,
+      </if>
+      <if test="activityEnd != null" >
+        activity_end,
+      </if>
+      <if test="activityName != null" >
+        activity_name,
+      </if>
+      <if test="activityDevInfo != null" >
+        activity_dev_info,
+      </if>
+      <if test="activityInfo != null" >
+        activity_info,
+      </if>
+      <if test="voteInfo != null" >
+        vote_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityStart != null" >
+        #{activityStart,jdbcType=DATE},
+      </if>
+      <if test="activityEnd != null" >
+        #{activityEnd,jdbcType=DATE},
+      </if>
+      <if test="activityName != null" >
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityDevInfo != null" >
+        #{activityDevInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="activityInfo != null" >
+        #{activityInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="voteInfo != null" >
+        #{voteInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vote.pojo.ActivityExample" resultType="java.lang.Integer" >
+    select count(*) from activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update activity
+    <set >
+      <if test="record.activityId != null" >
+        activity_id = #{record.activityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityStart != null" >
+        activity_start = #{record.activityStart,jdbcType=DATE},
+      </if>
+      <if test="record.activityEnd != null" >
+        activity_end = #{record.activityEnd,jdbcType=DATE},
+      </if>
+      <if test="record.activityName != null" >
+        activity_name = #{record.activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityDevInfo != null" >
+        activity_dev_info = #{record.activityDevInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.activityInfo != null" >
+        activity_info = #{record.activityInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.voteInfo != null" >
+        vote_info = #{record.voteInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update activity
+    set activity_id = #{record.activityId,jdbcType=INTEGER},
+      activity_start = #{record.activityStart,jdbcType=DATE},
+      activity_end = #{record.activityEnd,jdbcType=DATE},
+      activity_name = #{record.activityName,jdbcType=VARCHAR},
+      activity_dev_info = #{record.activityDevInfo,jdbcType=LONGVARCHAR},
+      activity_info = #{record.activityInfo,jdbcType=LONGVARCHAR},
+      vote_info = #{record.voteInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update activity
+    set activity_id = #{record.activityId,jdbcType=INTEGER},
+      activity_start = #{record.activityStart,jdbcType=DATE},
+      activity_end = #{record.activityEnd,jdbcType=DATE},
+      activity_name = #{record.activityName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.ActivityWithBLOBs" >
+    update activity
+    <set >
+      <if test="activityStart != null" >
+        activity_start = #{activityStart,jdbcType=DATE},
+      </if>
+      <if test="activityEnd != null" >
+        activity_end = #{activityEnd,jdbcType=DATE},
+      </if>
+      <if test="activityName != null" >
+        activity_name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityDevInfo != null" >
+        activity_dev_info = #{activityDevInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="activityInfo != null" >
+        activity_info = #{activityInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="voteInfo != null" >
+        vote_info = #{voteInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vote.pojo.ActivityWithBLOBs" >
+    update activity
+    set activity_start = #{activityStart,jdbcType=DATE},
+      activity_end = #{activityEnd,jdbcType=DATE},
+      activity_name = #{activityName,jdbcType=VARCHAR},
+      activity_dev_info = #{activityDevInfo,jdbcType=LONGVARCHAR},
+      activity_info = #{activityInfo,jdbcType=LONGVARCHAR},
+      vote_info = #{voteInfo,jdbcType=LONGVARCHAR}
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Activity" >
+    update activity
+    set activity_start = #{activityStart,jdbcType=DATE},
+      activity_end = #{activityEnd,jdbcType=DATE},
+      activity_name = #{activityName,jdbcType=VARCHAR}
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+</mapper>

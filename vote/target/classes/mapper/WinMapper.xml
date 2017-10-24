@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.WinMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Win" >
+    <constructor >
+      <idArg column="win_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_phone" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="user_card" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="award_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="is_get" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="win_time" jdbcType="DATE" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    win_id, user_name, user_phone, user_card, award_name, is_get, win_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from win
+    where win_id = #{winId,jdbcType=INTEGER}
+  </select>
+  <select id="getMaxWinId" resultType="java.lang.Integer">
+    select max(win_id) from win
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(win_id) from win
+  </select>
+  <select id="getAllWin" resultMap="BaseResultMap">
+    select * from win
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from win
+    where win_id = #{winId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.Win" >
+    insert into win (win_id, user_name, user_phone, 
+      user_card, award_name, is_get, 
+      win_time)
+    values (#{winId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=CHAR}, 
+      #{userCard,jdbcType=CHAR}, #{awardName,jdbcType=VARCHAR}, #{isGet,jdbcType=INTEGER}, 
+      #{winTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.Win" >
+    insert into win
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="winId != null" >
+        win_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userCard != null" >
+        user_card,
+      </if>
+      <if test="awardName != null" >
+        award_name,
+      </if>
+      <if test="isGet != null" >
+        is_get,
+      </if>
+      <if test="winTime != null" >
+        win_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="winId != null" >
+        #{winId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=CHAR},
+      </if>
+      <if test="userCard != null" >
+        #{userCard,jdbcType=CHAR},
+      </if>
+      <if test="awardName != null" >
+        #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGet != null" >
+        #{isGet,jdbcType=INTEGER},
+      </if>
+      <if test="winTime != null" >
+        #{winTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.Win" >
+    update win
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=CHAR},
+      </if>
+      <if test="userCard != null" >
+        user_card = #{userCard,jdbcType=CHAR},
+      </if>
+      <if test="awardName != null" >
+        award_name = #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGet != null" >
+        is_get = #{isGet,jdbcType=INTEGER},
+      </if>
+      <if test="winTime != null" >
+        win_time = #{winTime,jdbcType=DATE},
+      </if>
+    </set>
+    where win_id = #{winId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Win" >
+    update win
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=CHAR},
+      user_card = #{userCard,jdbcType=CHAR},
+      award_name = #{awardName,jdbcType=VARCHAR},
+      is_get = #{isGet,jdbcType=INTEGER},
+      win_time = #{winTime,jdbcType=DATE}
+    where win_id = #{winId,jdbcType=INTEGER}
+  </update>
+</mapper>

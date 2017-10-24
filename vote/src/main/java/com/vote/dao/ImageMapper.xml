@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.ImageMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Image" >
+    <id column="image_id" property="imageId" jdbcType="INTEGER" />
+    <result column="image_logo" property="imageLogo" jdbcType="VARCHAR" />
+    <result column="image_info1" property="imageInfo1" jdbcType="VARCHAR" />
+    <result column="image_info2" property="imageInfo2" jdbcType="VARCHAR" />
+    <result column="image_info3" property="imageInfo3" jdbcType="VARCHAR" />
+    <result column="image_info4" property="imageInfo4" jdbcType="VARCHAR" />
+    <result column="image_info5" property="imageInfo5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    image_id, image_logo, image_info1, image_info2, image_info3, image_info4, image_info5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vote.pojo.ImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vote.pojo.ImageExample" >
+    delete from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.Image" >
+    insert into image (image_id, image_logo, image_info1, 
+      image_info2, image_info3, image_info4, 
+      image_info5)
+    values (#{imageId,jdbcType=INTEGER}, #{imageLogo,jdbcType=VARCHAR}, #{imageInfo1,jdbcType=VARCHAR}, 
+      #{imageInfo2,jdbcType=VARCHAR}, #{imageInfo3,jdbcType=VARCHAR}, #{imageInfo4,jdbcType=VARCHAR}, 
+      #{imageInfo5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.Image" >
+    insert into image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imageId != null" >
+        image_id,
+      </if>
+      <if test="imageLogo != null" >
+        image_logo,
+      </if>
+      <if test="imageInfo1 != null" >
+        image_info1,
+      </if>
+      <if test="imageInfo2 != null" >
+        image_info2,
+      </if>
+      <if test="imageInfo3 != null" >
+        image_info3,
+      </if>
+      <if test="imageInfo4 != null" >
+        image_info4,
+      </if>
+      <if test="imageInfo5 != null" >
+        image_info5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imageId != null" >
+        #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="imageLogo != null" >
+        #{imageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo1 != null" >
+        #{imageInfo1,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo2 != null" >
+        #{imageInfo2,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo3 != null" >
+        #{imageInfo3,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo4 != null" >
+        #{imageInfo4,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo5 != null" >
+        #{imageInfo5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vote.pojo.ImageExample" resultType="java.lang.Integer" >
+    select count(*) from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update image
+    <set >
+      <if test="record.imageId != null" >
+        image_id = #{record.imageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.imageLogo != null" >
+        image_logo = #{record.imageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageInfo1 != null" >
+        image_info1 = #{record.imageInfo1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageInfo2 != null" >
+        image_info2 = #{record.imageInfo2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageInfo3 != null" >
+        image_info3 = #{record.imageInfo3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageInfo4 != null" >
+        image_info4 = #{record.imageInfo4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageInfo5 != null" >
+        image_info5 = #{record.imageInfo5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update image
+    set image_id = #{record.imageId,jdbcType=INTEGER},
+      image_logo = #{record.imageLogo,jdbcType=VARCHAR},
+      image_info1 = #{record.imageInfo1,jdbcType=VARCHAR},
+      image_info2 = #{record.imageInfo2,jdbcType=VARCHAR},
+      image_info3 = #{record.imageInfo3,jdbcType=VARCHAR},
+      image_info4 = #{record.imageInfo4,jdbcType=VARCHAR},
+      image_info5 = #{record.imageInfo5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.Image" >
+    update image
+    <set >
+      <if test="imageLogo != null" >
+        image_logo = #{imageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo1 != null" >
+        image_info1 = #{imageInfo1,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo2 != null" >
+        image_info2 = #{imageInfo2,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo3 != null" >
+        image_info3 = #{imageInfo3,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo4 != null" >
+        image_info4 = #{imageInfo4,jdbcType=VARCHAR},
+      </if>
+      <if test="imageInfo5 != null" >
+        image_info5 = #{imageInfo5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Image" >
+    update image
+    set image_logo = #{imageLogo,jdbcType=VARCHAR},
+      image_info1 = #{imageInfo1,jdbcType=VARCHAR},
+      image_info2 = #{imageInfo2,jdbcType=VARCHAR},
+      image_info3 = #{imageInfo3,jdbcType=VARCHAR},
+      image_info4 = #{imageInfo4,jdbcType=VARCHAR},
+      image_info5 = #{imageInfo5,jdbcType=VARCHAR}
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+</mapper>

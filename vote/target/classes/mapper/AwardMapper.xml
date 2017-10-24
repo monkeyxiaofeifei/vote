@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.AwardMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.Award" >
+    <constructor >
+      <idArg column="award_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="award_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="award_image" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    award_id, award_name, award_image
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from award
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllAward" resultMap="BaseResultMap"  >
+    select * from award
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from award
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.Award" >
+    insert into award (award_id, award_name, award_image
+      )
+    values (#{awardId,jdbcType=INTEGER}, #{awardName,jdbcType=VARCHAR}, #{awardImage,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.Award" >
+    insert into award
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="awardId != null" >
+        award_id,
+      </if>
+      <if test="awardName != null" >
+        award_name,
+      </if>
+      <if test="awardImage != null" >
+        award_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="awardId != null" >
+        #{awardId,jdbcType=INTEGER},
+      </if>
+      <if test="awardName != null" >
+        #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="awardImage != null" >
+        #{awardImage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.Award" >
+    update award
+    <set >
+      <if test="awardName != null" >
+        award_name = #{awardName,jdbcType=VARCHAR},
+      </if>
+      <if test="awardImage != null" >
+        award_image = #{awardImage,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.Award" >
+    update award
+    set award_name = #{awardName,jdbcType=VARCHAR},
+      award_image = #{awardImage,jdbcType=VARCHAR}
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </update>
+</mapper>

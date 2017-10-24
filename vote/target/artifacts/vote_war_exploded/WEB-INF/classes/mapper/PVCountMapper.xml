@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.dao.PVCountMapper" >
+  <resultMap id="BaseResultMap" type="com.vote.pojo.PVCount" >
+    <constructor >
+      <idArg column="pvcount_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pvcount_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="daily_last_date" jdbcType="DATE" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pvcount_id, pvcount_count, daily_last_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pvcount
+    where pvcount_id = #{pvcountId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pvcount
+    where pvcount_id = #{pvcountId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vote.pojo.PVCount" >
+    insert into pvcount (pvcount_id, pvcount_count, daily_last_date
+      )
+    values (#{pvcountId,jdbcType=INTEGER}, #{pvcountCount,jdbcType=INTEGER}, #{dailyLastDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vote.pojo.PVCount" >
+    insert into pvcount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pvcountId != null" >
+        pvcount_id,
+      </if>
+      <if test="pvcountCount != null" >
+        pvcount_count,
+      </if>
+      <if test="dailyLastDate != null" >
+        daily_last_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pvcountId != null" >
+        #{pvcountId,jdbcType=INTEGER},
+      </if>
+      <if test="pvcountCount != null" >
+        #{pvcountCount,jdbcType=INTEGER},
+      </if>
+      <if test="dailyLastDate != null" >
+        #{dailyLastDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vote.pojo.PVCount" >
+    update pvcount
+    <set >
+      <if test="pvcountCount != null" >
+        pvcount_count = #{pvcountCount,jdbcType=INTEGER},
+      </if>
+      <if test="dailyLastDate != null" >
+        daily_last_date = #{dailyLastDate,jdbcType=DATE},
+      </if>
+    </set>
+    where pvcount_id = #{pvcountId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vote.pojo.PVCount" >
+    update pvcount
+    set pvcount_count = #{pvcountCount,jdbcType=INTEGER},
+      daily_last_date = #{dailyLastDate,jdbcType=DATE}
+    where pvcount_id = #{pvcountId,jdbcType=INTEGER}
+  </update>
+</mapper>
